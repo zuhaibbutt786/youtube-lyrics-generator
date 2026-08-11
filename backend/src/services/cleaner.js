@@ -18,7 +18,7 @@ ${rawText}`;
 
   const completion = await groq.chat.completions.create({
     messages: [{ role: "user", content: prompt }],
-    model: "openai/gpt-oss-20b",
+    model: "llama-3.3-70b-versatile",
     temperature: 0.3
   });
 

@@ -1,15 +1,11 @@
-# Icons
+# Extension Icons
 
-Place your extension icons here:
+Place your icon files here:
 
-- icon16.png
-- icon48.png
-- icon128.png
+- `icon16.png` (16×16)
+- `icon48.png` (48×48)
+- `icon128.png` (128×128)
 
-Simple red placeholders can be generated with ImageMagick:
+You can generate simple icons or use any PNG. The extension references these paths in `manifest.json`.
 
-```bash
-convert -size 16x16 xc:'#ff0033' -fill white -gravity center -pointsize 10 -annotate 0 'L' icon16.png
-convert -size 48x48 xc:'#ff0033' -fill white -gravity center -pointsize 28 -annotate 0 'L' icon48.png
-convert -size 128x128 xc:'#ff0033' -fill white -gravity center -pointsize 72 -annotate 0 'L' icon128.png
-```
+Current local copies exist in the project folder but binary files are not auto-pushed via this tool. Add them manually if needed.

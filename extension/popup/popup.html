@@ -1,13 +1,26 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="UTF-8" />
-  <title>YouTube Lyrics</title>
-  <link rel="stylesheet" href="popup.css" />
+  <meta charset="UTF-8">
+  <title>Lyrics / Transcript</title>
+  <link rel="stylesheet" href="popup.css">
 </head>
 <body>
-  <div id="content">
-    <div class="empty">Click "Get Lyrics / Transcript" on a YouTube video first.</div>
+  <div id="app">
+    <h2 id="title">No result yet</h2>
+    <div class="mode-toggle">
+      <label>
+        <input type="radio" name="mode" value="lyrics" checked> Lyrics Mode
+      </label>
+      <label>
+        <input type="radio" name="mode" value="raw"> Raw Transcript
+      </label>
+    </div>
+    <pre id="lyrics">Click “Get Lyrics / Transcript” on a YouTube video first.</pre>
+    <div class="actions">
+      <button id="copyBtn">Copy</button>
+      <button id="downloadBtn">Download .txt</button>
+    </div>
   </div>
   <script src="popup.js"></script>
 </body>
