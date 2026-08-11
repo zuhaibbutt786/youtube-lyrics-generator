@@ -1,36 +1,46 @@
-let currentData = { title: "", lyrics: "", raw: "" };
+document.addEventListener("DOMContentLoaded", async () => {
+  const content = document.getElementById("content");
 
-chrome.runtime.sendMessage({ type: "GET_LAST_RESULT" }, (result) => {
-  if (result) {
-    currentData = result;
-    document.getElementById("title").textContent = result.title || "Untitled";
-    document.getElementById("lyrics").textContent = result.lyrics || "";
+  const { lastResult } = await chrome.storage.local.get("lastResult");
+
+  if (!lastResult || !lastResult.lyrics) {
+    content.innerHTML = `<div class="empty">Click "Get Lyrics / Transcript" on a YouTube video first.</div>`;
+    return;
   }
-});
 
-document.querySelectorAll('input[name="mode"]').forEach((radio) => {
-  radio.addEventListener("change", (e) => {
-    const text = e.target.value === "raw" ? currentData.raw : currentData.lyrics;
-    document.getElementById("lyrics").textContent = text || "No data";
+  const { title, lyrics } = lastResult;
+
+  content.innerHTML = `
+    <h1>${escapeHtml(title)}</h1>
+    <div class="meta">Generated just now</div>
+    <div id="lyrics">${escapeHtml(lyrics)}</div>
+    <div class="actions">
+      <button id="copy-btn">Copy</button>
+      <button id="download-btn">Download .txt</button>
+    </div>
+  `;
+
+  document.getElementById("copy-btn").addEventListener("click", () => {
+    navigator.clipboard.writeText(lyrics).then(() => {
+      const btn = document.getElementById("copy-btn");
+      btn.textContent = "Copied!";
+      setTimeout(() => (btn.textContent = "Copy"), 1500);
+    });
+  });
+
+  document.getElementById("download-btn").addEventListener("click", () => {
+    const blob = new Blob([lyrics], { type: "text/plain" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = (title || "lyrics").replace(/[^a-z0-9]/gi, "_").slice(0, 60) + ".txt";
+    a.click();
+    URL.revokeObjectURL(url);
   });
 });
 
-document.getElementById("copyBtn").addEventListener("click", () => {
-  const text = document.getElementById("lyrics").textContent;
-  navigator.clipboard.writeText(text).then(() => {
-    const btn = document.getElementById("copyBtn");
-    btn.textContent = "Copied!";
-    setTimeout(() => (btn.textContent = "Copy"), 1500);
-  });
-});
-
-document.getElementById("downloadBtn").addEventListener("click", () => {
-  const text = document.getElementById("lyrics").textContent;
-  const blob = new Blob([text], { type: "text/plain" });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = (currentData.title || "lyrics").replace(/[^\w\s-]/g, "") + ".txt";
-  a.click();
-  URL.revokeObjectURL(url);
-});
+function escapeHtml(text) {
+  const div = document.createElement("div");
+  div.textContent = text;
+  return div.innerHTML;
+}

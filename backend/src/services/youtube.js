@@ -21,9 +21,7 @@ export async function downloadAudio(url) {
 
   // Find the downloaded file
   const files = fs.readdirSync("temp").filter((f) => f.startsWith(id));
-  if (files.length === 0) {
-    throw new Error("Failed to download audio");
-  }
+  if (files.length === 0) throw new Error("Failed to download audio");
 
   const filePath = path.join("temp", files[0]);
 

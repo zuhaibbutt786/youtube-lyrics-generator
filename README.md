@@ -41,8 +41,6 @@ Required system tools:
 3. Click **Load unpacked** → select the `extension/` folder
 4. Open any normal YouTube video and click **Get Lyrics / Transcript**
 
-> **Icons note**: Simple placeholder icons are included. Replace `extension/icons/*.png` with your own if desired.
-
 ## Environment Variables
 
 ```
@@ -56,7 +54,6 @@ PORT=3000
 - Max recommended length: ~15-20 minutes
 - English first
 - Never commit your real `.env` file
-- **Important**: Revoke any previously shared API keys and generate a new one.
 
 ## License
 
